@@ -16,4 +16,5 @@ struct NewsResult: Decodable {
     let published_date: String?
     let title: String?
     let topic: String?
+    let summary: String?
 }

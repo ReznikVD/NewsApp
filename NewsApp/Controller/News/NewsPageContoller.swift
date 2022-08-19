@@ -31,20 +31,22 @@ class NewsPageContoller: BaseListController {
         return stackView
     }()
     
+    var newsFullscreenContoller: NewsFullscreenContoller?
+    
     // MARK: - Properties
     
     fileprivate let cellId = "CellId"
     fileprivate let headerId = "headerId"
     fileprivate var articles = [NewsResult]()
     fileprivate var headerArticles = [NewsResult]()
+    var startingFrame: CGRect?
+    var anchoredConstraints: AnchoredConstraints?
     
     // MARK: - Lifecylce
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
-       
-       
         
         collectionView.register(NewsRowCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.register(NewsPageHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerId)
@@ -64,7 +66,7 @@ class NewsPageContoller: BaseListController {
 
         dispatchGroup.enter()
             
-        Service.shared.fetchAllNews { (articles, err) in
+        Service.shared.fetchTodayNews { (articles, err) in
             dispatchGroup.leave()
             self.articles = articles?.articles ?? []
         }
@@ -83,6 +85,74 @@ class NewsPageContoller: BaseListController {
             self.collectionView.reloadData()
         }
     }
+    
+    fileprivate func setupNewsFullscreenController(_ indexPath: IndexPath) {
+    
+        let fullscreenView = NewsFullscreenContoller()
+        fullscreenView.article = articles[indexPath.item]
+        fullscreenView.dismissHandler = {
+            self.handleNewsFullscreenDismissal()
+        }
+        fullscreenView.view.layer.cornerRadius = 16
+        self.newsFullscreenContoller = fullscreenView
+    }
+    
+    @objc func handleNewsFullscreenDismissal() {
+        self.navigationController?.navigationBar.isHidden = false
+        self.newsFullscreenContoller?.view.removeFromSuperview()
+        self.newsFullscreenContoller?.removeFromParent()
+        self.collectionView.isUserInteractionEnabled = true
+    }
+    
+    fileprivate func setupNewsFullscreenStartingPosition(_ indexPath: IndexPath) {
+        
+        guard let newsFullscreenContoller = newsFullscreenContoller else { return }
+
+        guard let fullscreenView = newsFullscreenContoller.view else { return }
+    
+        view.addSubview(fullscreenView)
+        
+        addChild(newsFullscreenContoller)
+        
+        self.collectionView.isUserInteractionEnabled = false
+        
+        setupStartingCellFrame(indexPath)
+        
+        guard let startingFrame = self.startingFrame else { return }
+        
+        self.anchoredConstraints = fullscreenView.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: nil, padding: .init(top: startingFrame.origin.y, left: startingFrame.origin.x, bottom: 0, right: 0), size: .init(width: startingFrame.width, height: startingFrame.height))
+        
+        self.view.layoutIfNeeded()
+    }
+    
+    fileprivate func setupStartingCellFrame(_ indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) else { return }
+        
+        // absolute coordinate of cell
+        guard let startingFrame = cell.superview?.convert(cell.frame, to: nil) else { return }
+        
+        self.startingFrame = startingFrame
+    }
+    
+    fileprivate func beginAnimationNewsFullscreen() {
+        UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.7, options: .curveEaseOut, animations: {
+            
+            self.anchoredConstraints?.top?.constant = 0
+            self.anchoredConstraints?.leading?.constant = 0
+            self.anchoredConstraints?.width?.constant = self.view.frame.width
+            self.anchoredConstraints?.height?.constant = self.view.frame.height
+            
+            self.view.layoutIfNeeded()
+            
+            self.tabBarController?.tabBar.frame.origin.y += 100
+            self.navigationController?.navigationBar.isHidden = true
+            
+            guard let cell = self.newsFullscreenContoller?.tableView.cellForRow(at: [0, 0]) as? NewsFullscreenHeaderCell else { return }
+            cell.newsFullscreenHeader.topConstraint.constant = 50
+            cell.layoutIfNeeded()
+            
+        }, completion: nil)
+    }
 }
 
 // MARK: - UICollectionViewDelegate
@@ -91,12 +161,18 @@ extension NewsPageContoller {
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? NewsRowCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? BaseNewsCell else {
             return UICollectionViewCell()
         }
         let article = articles[indexPath.item]
         cell.article = article
         return cell
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        setupNewsFullscreenController(indexPath)
+        setupNewsFullscreenStartingPosition(indexPath)
+        beginAnimationNewsFullscreen()
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {

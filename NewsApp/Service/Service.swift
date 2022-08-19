@@ -18,13 +18,13 @@ class Service {
         "X-RapidAPI-Host": "free-news.p.rapidapi.com"
     ]
     
-    func fetchAllNews(completion: @escaping (News?, Error?) -> ()) {
-        let urlString = "https://free-news.p.rapidapi.com/v1/search?q=all&lang=en&page_size=20"
+    func fetchTodayNews(completion: @escaping (News?, Error?) -> ()) {
+        let urlString = "https://free-news.p.rapidapi.com/v1/search?q=today&lang=en&page_size=20"
         fetchNews(urlString: urlString, completion: completion)
     }
     
     func fetchTopNews(completion: @escaping (News?, Error?) -> ()) {
-        let urlString = "https://free-news.p.rapidapi.com/v1/search?q=today&lang=en&page_size=5"
+        let urlString = "https://free-news.p.rapidapi.com/v1/search?q=top&lang=en&page_size=5"
         fetchNews(urlString: urlString, completion: completion)
     }
     
