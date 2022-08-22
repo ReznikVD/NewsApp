@@ -14,13 +14,9 @@ class NewsFullscreenHeader: BaseNewsCell {
     override var article: ArticleResult! {
         
         didSet {
-            self.titleLabel.text = article.title
             self.imageView.sd_setImage(with: URL(string: article.media ?? ""))
         }
     }
-    
-    static let cellSize: CGFloat = 450
-    var topConstraint: NSLayoutConstraint!
     
     // MARK: - Lifecycle
     
@@ -28,28 +24,13 @@ class NewsFullscreenHeader: BaseNewsCell {
         
         super.init(frame: frame)
         
-        titleLabel.numberOfLines = 3
-        titleLabel.font = .boldSystemFont(ofSize: 20)
+        let imageContainer = UIView()
+        imageContainer.addSubview(imageView)
+        imageView.centerInSuperview(size: .init(width: 280, height: 280))
         
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        
-        let imageContainerView = UIView()
-        imageContainerView.addSubview(imageView)
-        imageView.centerInSuperview(size: .init(width: 240, height: 240))
-        
-        let verticalStackView = UIStackView(arrangedSubviews: [
-            titleLabel,
-            imageContainerView,
-            ], customSpacing: 8)
-        verticalStackView.axis = .vertical
-        verticalStackView.alignment = .center
-        
-        addSubview(verticalStackView)
-        verticalStackView.anchor(top: nil, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor, padding: .init(top: 0, left: 27, bottom: 24, right: 27))
-        
-        self.topConstraint = verticalStackView.topAnchor.constraint(equalTo: topAnchor, constant: 24)
-        self.topConstraint.isActive = true
+        addSubview(imageContainer)
+      
+        imageContainer.anchor(top: topAnchor, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor, padding: .init(top: 50, left: 30, bottom: 24, right: 30), size: .init(width: 0, height: 300))
     }
     
     required init?(coder: NSCoder) {

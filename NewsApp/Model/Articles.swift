@@ -17,4 +17,5 @@ struct ArticleResult: Decodable {
     let title: String?
     let topic: String?
     let summary: String?
+    let author: String?
 }

@@ -11,7 +11,7 @@ class NewsFullscreenDescriptionCell: UITableViewCell {
     
     // MARK: - Subviews
     
-    var newsFullscreenDescription: NewsFullscreenDescription?
+    var newsFullscreenDescription = NewsFullscreenDescription()
     
     // MARK: - Lifecycle
     
@@ -19,11 +19,11 @@ class NewsFullscreenDescriptionCell: UITableViewCell {
         
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        if let newsFullscreenDescription = newsFullscreenDescription {
+//        if let newsFullscreenDescription = newsFullscreenDescription {
             
             addSubview(newsFullscreenDescription)
             newsFullscreenDescription.fillSuperview()
-        }
+   
     }
     
     required init?(coder: NSCoder) {

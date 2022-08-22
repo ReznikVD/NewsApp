@@ -22,6 +22,13 @@ class NewsFullscreenContoller: UIViewController {
     
     var article: ArticleResult?
     var dismissHandler: (() -> ())?
+    let statusBarHeight = UIApplication.shared.connectedScenes
+            .filter {$0.activationState == .foregroundActive }
+            .map {$0 as? UIWindowScene }
+            .compactMap { $0 }
+            .first?.windows
+            .filter({ $0.isKeyWindow }).first?
+            .windowScene?.statusBarManager?.statusBarFrame.height ?? 0
     
     // MARK: - Lifecycle
     
@@ -34,10 +41,10 @@ class NewsFullscreenContoller: UIViewController {
         
         tableView.fillSuperview()
         tableView.dataSource = self
-        tableView.delegate = self
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
         tableView.contentInsetAdjustmentBehavior = .never
+        tableView.contentInset = .init(top: 0, left: 0, bottom: statusBarHeight, right: 0)
         
         setupCancelButton()
     }
@@ -67,25 +74,21 @@ class NewsFullscreenContoller: UIViewController {
 extension NewsFullscreenContoller: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let headerCell = NewsFullscreenHeaderCell()
-        headerCell.newsFullscreenHeader.article = self.article
-        headerCell.newsFullscreenHeader.backgroundView = nil
-        return headerCell
-    }
-}
-
-// MARK: - UITableViewDelegate
-
-extension NewsFullscreenContoller: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
-            return NewsFullscreenHeader.cellSize
+            let headerCell = NewsFullscreenHeaderCell()
+            headerCell.newsFullscreenHeader.article = self.article
+            headerCell.newsFullscreenHeader.backgroundView = nil
+            return headerCell
         }
+        let descriptionCell = NewsFullscreenDescriptionCell()
+        descriptionCell.newsFullscreenDescription.article = self.article
+        return descriptionCell
         
-        return UITableView.automaticDimension
     }
 }
+
+

@@ -155,10 +155,6 @@ class NewsPageContoller: BaseListController {
             
             self.tabBarController?.tabBar.frame.origin.y += 100
             
-            guard let cell = self.newsFullscreenContoller?.tableView.cellForRow(at: [0, 0]) as? NewsFullscreenHeaderCell else { return }
-            cell.newsFullscreenHeader.topConstraint.constant = 50
-            cell.layoutIfNeeded()
-            
         }, completion: nil)
     }
 }

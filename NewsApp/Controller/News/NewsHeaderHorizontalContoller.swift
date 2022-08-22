@@ -32,14 +32,15 @@ class NewsHeaderHorizontalContoller: HorizontalSnappingController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? NewsHeaderCell else {
             return UICollectionViewCell()
         }
+        
         let article = headerArticles[indexPath.item]
         cell.article = article
         return cell
     }
-    
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout

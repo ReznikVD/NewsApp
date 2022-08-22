@@ -31,8 +31,6 @@ class NewsHeaderCell: BaseNewsCell {
         
         imageView.constrainHeight(constant: 132)
         imageView.backgroundColor = .blue
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
         
         let verticalStackView = UIStackView(arrangedSubviews: [
             imageView,

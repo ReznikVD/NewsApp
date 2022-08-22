@@ -30,8 +30,6 @@ class NewsRowCell: BaseNewsCell {
         
         imageView.constrainWidth(constant: 83)
         imageView.constrainHeight(constant: 83)
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
         
         let verticalStackView = UIStackView(arrangedSubviews: [
             titleLabel,
