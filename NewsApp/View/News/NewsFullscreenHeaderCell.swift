@@ -9,13 +9,14 @@ import UIKit
 
 class NewsFullscreenHeaderCell: UITableViewCell {
     
-    // MARK: - Properties
-    let newsFullscreenHeader = NewsFullscreenHeader()
-   // var topConstraint: NSLayoutConstraint!
+    // MARK: - Subviews
+    
+    lazy var newsFullscreenHeader = NewsFullscreenHeader()
     
     // MARK: - Lifecycle
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         addSubview(newsFullscreenHeader)

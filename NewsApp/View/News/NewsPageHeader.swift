@@ -11,7 +11,7 @@ class NewsPageHeader: UICollectionReusableView {
     
     // MARK: - Subviews
     
-    let newsHeaderHorizontalController = NewsHeaderHorizontalContoller()
+    lazy var newsHeaderHorizontalController = NewsHeaderHorizontalContoller()
     
     // MARK: - Lifecycle
     

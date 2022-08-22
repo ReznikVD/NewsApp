@@ -11,11 +11,12 @@ class NewsFullscreenDescription: BaseNewsCell {
     
     // MARK: - Subviews
     
-    var descriptionLabel = UILabel(text: "Some text", font: .systemFont(ofSize: 14))
+    private lazy var descriptionLabel = UILabel(text: "Some text", font: .systemFont(ofSize: 14))
     
     // MARK: - Properties
     
-    override var article: NewsResult! {
+    override var article: ArticleResult! {
+        
         didSet {
             self.descriptionLabel.text = article.summary
         }

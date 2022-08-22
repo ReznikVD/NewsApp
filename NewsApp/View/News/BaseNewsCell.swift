@@ -11,14 +11,14 @@ class BaseNewsCell: UICollectionViewCell {
     
     // MARK: - Subviews
     
-    let titleLabel = UILabel(text: "Label", font: .systemFont(ofSize: 16, weight: .regular))
-    var publishedTimeLabel = UILabel(text: "time", font: .systemFont(ofSize: 14, weight: .light))
-    let topicLabel = UILabel(text: "topic", font: .systemFont(ofSize: 14, weight: .light))
-    let imageView = UIImageView(cornerRadius: 8)
+    lazy var titleLabel = UILabel(text: "Label", font: .systemFont(ofSize: 16, weight: .regular))
+    lazy var publishedTimeLabel = UILabel(text: "time", font: .systemFont(ofSize: 14, weight: .light))
+    lazy var topicLabel = UILabel(text: "topic", font: .systemFont(ofSize: 14, weight: .light))
+    lazy var imageView = UIImageView(cornerRadius: 8)
     
     // MARK: - Properties
     
-    var article: NewsResult!
+    var article: ArticleResult!
     
     // MARK: - Methods
     

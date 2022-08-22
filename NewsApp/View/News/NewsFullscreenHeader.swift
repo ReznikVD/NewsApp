@@ -11,7 +11,8 @@ class NewsFullscreenHeader: BaseNewsCell {
     
     // MARK: - Properties
     
-    override var article: NewsResult! {
+    override var article: ArticleResult! {
+        
         didSet {
             self.titleLabel.text = article.title
             self.imageView.sd_setImage(with: URL(string: article.media ?? ""))
@@ -24,6 +25,7 @@ class NewsFullscreenHeader: BaseNewsCell {
     // MARK: - Lifecycle
     
     override init(frame: CGRect) {
+        
         super.init(frame: frame)
         
         titleLabel.numberOfLines = 3
@@ -45,6 +47,7 @@ class NewsFullscreenHeader: BaseNewsCell {
         
         addSubview(verticalStackView)
         verticalStackView.anchor(top: nil, leading: leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor, padding: .init(top: 0, left: 27, bottom: 24, right: 27))
+        
         self.topConstraint = verticalStackView.topAnchor.constraint(equalTo: topAnchor, constant: 24)
         self.topConstraint.isActive = true
     }

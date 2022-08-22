@@ -12,17 +12,20 @@ class NewsHeaderHorizontalContoller: HorizontalSnappingController {
     // MARK: - Properties
     
     let cellId = "cellId"
-    var headerArticles = [NewsResult]()
+    var headerArticles = [ArticleResult]()
     
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         
         collectionView.register(NewsHeaderCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.contentInset = .init(top: 0, left: 27, bottom: 0, right: 27)
         
     }
+    
+    // MARK: - Methods
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return headerArticles.count

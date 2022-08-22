@@ -9,16 +9,18 @@ import UIKit
 
 class NewsFullscreenDescriptionCell: UITableViewCell {
     
-    // MARK: - Properties
+    // MARK: - Subviews
     
     var newsFullscreenDescription: NewsFullscreenDescription?
     
     // MARK: - Lifecycle
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         if let newsFullscreenDescription = newsFullscreenDescription {
+            
             addSubview(newsFullscreenDescription)
             newsFullscreenDescription.fillSuperview()
         }

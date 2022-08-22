@@ -11,7 +11,7 @@ class NewsRowCell: BaseNewsCell {
     
     // MARK: - Properties
     
-    override var article: NewsResult! {
+    override var article: ArticleResult! {
         didSet {
             self.titleLabel.text = article.title
             self.publishedTimeLabel.text = whenPublished(date: article.published_date ?? "")
@@ -23,6 +23,7 @@ class NewsRowCell: BaseNewsCell {
     // MARK: - Lifecycle
     
     override init(frame: CGRect) {
+        
         super.init(frame: frame)
         
         titleLabel.numberOfLines = 2

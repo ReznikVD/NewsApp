@@ -11,8 +11,8 @@ class NewsFullscreenContoller: UIViewController {
     
     // MARK: - Subviews
     
-    let tableView = UITableView(frame: .zero, style: .plain)
-    let closeButton: UIButton = {
+    lazy var tableView = UITableView(frame: .zero, style: .plain)
+    private lazy var closeButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(named: "cancel_button"), for: . normal)
         return button
@@ -20,7 +20,7 @@ class NewsFullscreenContoller: UIViewController {
     
     // MARK: - Properties
     
-    var article: NewsResult?
+    var article: ArticleResult?
     var dismissHandler: (() -> ())?
     
     // MARK: - Lifecycle
@@ -30,18 +30,16 @@ class NewsFullscreenContoller: UIViewController {
         super.viewDidLoad()
         
         view.clipsToBounds = true
-        
         view.addSubview(tableView)
+        
         tableView.fillSuperview()
         tableView.dataSource = self
         tableView.delegate = self
-        
-        setupCancelButton()
-       
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
         tableView.contentInsetAdjustmentBehavior = .never
         
+        setupCancelButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -54,7 +52,7 @@ class NewsFullscreenContoller: UIViewController {
     
     fileprivate func setupCancelButton() {
         view.addSubview(closeButton)
-        closeButton.anchor(top: view.topAnchor, leading: nil, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 50, left: 0, bottom: 0, right: 0), size: .init(width: 80, height: 40))
+        closeButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: nil, bottom: nil, trailing: view.trailingAnchor, padding: .init(top: 12, left: 0, bottom: 0, right: 0), size: .init(width: 80, height: 40))
         closeButton.addTarget(self, action: #selector(handleDismiss), for: .touchUpInside)
     }
     
