@@ -16,7 +16,7 @@ class BaseTabBarController: UITabBarController {
         
         viewControllers = [
             createNavController(viewController: NewsPageContoller(), title: "News", imageName: "News"),
-            createNavController(viewController: UIViewController(), title: "Headlines", imageName: "Headline")
+            createNavController(viewController: NewsSearchController(), title: "Search", imageName: "Headline")
         ]
         
         self.tabBar.standardAppearance = setTabBarAppearance(color: .init(white: 1, alpha: 1))

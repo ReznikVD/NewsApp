@@ -21,16 +21,17 @@ class Service {
     func fetchTodayNews(completion: @escaping (Articles?, Error?) -> ()) {
         
         let urlString = "https://free-news.p.rapidapi.com/v1/search?q=today&lang=en&page_size=20"
-        fetchNews(urlString: urlString, completion: completion)
+        fetchGenericJSONData(urlString: urlString, completion: completion)
     }
     
     func fetchTopNews(completion: @escaping (Articles?, Error?) -> ()) {
         
         let urlString = "https://free-news.p.rapidapi.com/v1/search?q=Sport&lang=en&page_size=5"
-        fetchNews(urlString: urlString, completion: completion)
+        fetchGenericJSONData(urlString: urlString, completion: completion)
     }
     
-    func fetchNews(urlString: String, completion: @escaping (Articles?, Error?) -> Void) {
+    func fetchNews(searchTerm: String, completion: @escaping (Articles?, Error?) -> ()) {
+        let urlString = "https://free-news.p.rapidapi.com/v1/search?q=\(searchTerm)&lang=en&page_size=25"
         fetchGenericJSONData(urlString: urlString, completion: completion)
     }
 
